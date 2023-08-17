@@ -16,6 +16,7 @@ class todolist{
     void unmarkAll();
     void loadTasks();
     void save();
+    void loadCustomList();
 
   private:
     std::vector<std::string> list;
@@ -36,7 +37,8 @@ int main(){
     std::cout << "2) Delete task." << std::endl;
     std::cout << "3) Mark task as complete." << std::endl;
     std::cout << "4) Unmark task as complete." << std::endl;
-    std::cout << "5) Save list" <<std::endl;
+    std::cout << "5) Save list" << std::endl;
+    std::cout << "6) Load custom list" << std::endl; 
     std::cout << "q) Quit program." << std::endl;
     std::cout << std::endl << "> ";
     std::getline(std::cin, input);
@@ -136,8 +138,13 @@ int main(){
           todo.unmark(std::stoi(task));
       }while(!task.empty());
     }
-    else if(input == "save" || input == "5"){
+
+    else if(input == "save" || input == "5")
       todo.save();
+
+    else if(input == "load" || input == "6"){
+      std::cout << "filename: ";
+      todo.loadCustomList();
     }
   }while(input != "q");
   todo.save();
@@ -219,8 +226,11 @@ void todolist::loadTasks(){
     while(getline(file,line)){
       this->addTask(line);
     }
+    std::cout << line.length() << std::endl;
     this->deleteTask(int(list.size()));
     for(unsigned int i = 0; i < line.size(); i++){
+      if(i >= list.size())
+        return;
       if(line[i] == '1')
         markComplete(i+1);
     }
@@ -239,5 +249,32 @@ void todolist::save(){
       file << mark[i]; //saves mark status in file
     }
     file.close();
+  }
+}
+void todolist::loadCustomList(){
+  std::string fileName;
+  std::string line;
+  getline(std::cin, fileName);
+  std::ifstream file(fileName);
+  if(file.fail()){
+    std::cout << "File doesn't exist" << std::endl;
+    return;
+  }
+  this->deleteList();
+  while(getline(file,line)){
+      this->addTask(line);
+  }
+  std::cout << line.length() << std::endl;
+  line = list[list.size()-1];
+  for(unsigned int i = 0; i < line.length(); i++){
+    if(line[i] != '0' && line[i] != '1')
+      return;
+  }
+  this->deleteTask(int(list.size()));
+  for(unsigned int j = 0; j < line.length(); j++){
+    if(j >= list.size())
+      return;
+    if(line[j] == '1')
+      markComplete(j+1);
   }
 }

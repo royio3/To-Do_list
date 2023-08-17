@@ -224,17 +224,20 @@ void todolist::loadTasks(){
       if(line[i] == '1')
         markComplete(i+1);
     }
+    file.close();
   }
 }
 
 //Saves tasks in txt file
 void todolist::save(){
   std::ofstream file ("todolist.txt"); 
-  if(file.is_open())
-  for(unsigned int i = 0; i < list.size(); i++){
-    file << list[i] << "\n";  //saves tasks in file
-  }
-  for(unsigned int i = 0; i < mark.size(); i++){
-    file << mark[i]; //saves mark status in file
+  if(file.is_open()){
+    for(unsigned int i = 0; i < list.size(); i++){
+      file << list[i] << "\n";  //saves tasks in file
+    }
+    for(unsigned int i = 0; i < mark.size(); i++){
+      file << mark[i]; //saves mark status in file
+    }
+    file.close();
   }
 }

@@ -251,6 +251,8 @@ void todolist::save(){
     file.close();
   }
 }
+
+//Add your own list functionality
 void todolist::loadCustomList(){
   std::string fileName;
   std::string line;
@@ -265,7 +267,7 @@ void todolist::loadCustomList(){
       this->addTask(line);
   }
   std::cout << line.length() << std::endl;
-  line = list[list.size()-1];
+  line = list[list.size()-1]; // This command is to retrieve the intended last line otherwise there is a chance the last line is an EOF with length 0
   for(unsigned int i = 0; i < line.length(); i++){
     if(line[i] != '0' && line[i] != '1')
       return;

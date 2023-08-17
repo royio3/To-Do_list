@@ -226,7 +226,6 @@ void todolist::loadTasks(){
     while(getline(file,line)){
       this->addTask(line);
     }
-    std::cout << line.length() << std::endl;
     this->deleteTask(int(list.size()));
     for(unsigned int i = 0; i < line.size(); i++){
       if(i >= list.size())
@@ -259,14 +258,14 @@ void todolist::loadCustomList(){
   getline(std::cin, fileName);
   std::ifstream file(fileName);
   if(file.fail()){
-    std::cout << "File doesn't exist" << std::endl;
+    std::cout << "File does not exist" << std::endl;
     return;
   }
   this->deleteList();
   while(getline(file,line)){
       this->addTask(line);
   }
-  std::cout << line.length() << std::endl;
+  file.close();
   line = list[list.size()-1]; // This command is to retrieve the intended last line otherwise there is a chance the last line is an EOF with length 0
   for(unsigned int i = 0; i < line.length(); i++){
     if(line[i] != '0' && line[i] != '1')
